@@ -1,0 +1,33 @@
+{
+  "name": "mongoose-crud",
+  "version": "1.0.0",
+  "description": "crud with mongoose odm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azhariemuhammad/mongoose-crud.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/azhariemuhammad/mongoose-crud/issues"
+  },
+  "homepage": "https://github.com/azhariemuhammad/mongoose-crud#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "moment": "^2.19.2",
+    "mongoose": "^4.13.2",
+    "mongoose-unique-validator": "^1.0.6",
+    "morgan": "^1.9.0"
+  }
+}
