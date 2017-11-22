@@ -1,33 +1,32 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const uniqueValidator = require('mongoose-unique-validator');
 
 
-const costumerSchema = new Schema ({
-  name      : String,
-  memberid  : String,
-  address   : String,
-  zipcode   : String,
-  phone     : {
-    type: String,
-    validate: {
-      validator: function(v) {
-        return v.length > 6
+
+const userSchema = new Schema({
+  username  : { type: String, required: true, unique: true },
+  email     : {
+      type  : String,
+      validate  : {
+        validator : function(email) {
+        let emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        return emailReg.test(email)
+        },
+      message : '{VALUE} is not a valid email'
       },
-      message: '{VALUE} is not a valid phone number!'
-    },
-    required: [true, 'User phone number required']
+      required : [true, 'Email required']
   },
+  password  : String,
   createdAt : {
-    type : Date,
-    default : Date.now
-  },
-  updatedAt : {
-    type : Date,
+    type    : Date,
     default : Date.now
   }
 })
 
 
-const Costumer = mongoose.model('Costumer', costumerSchema)
+userSchema.plugin(uniqueValidator); // add validation to username
 
-module.exports = Costumer;
+const User = mongoose.model('User', userSchema)
+
+module.exports = User;

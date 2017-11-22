@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const itemSchema = new Schema ({
   item      : String,
   price     : Number,
-  stock     : String,
+  stock     : Number,
   img       : String,
   createdAt : {
     type : Date,
