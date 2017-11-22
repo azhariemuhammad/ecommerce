@@ -35,4 +35,4 @@ app.get('/', function(req, res){
 const api = require('./routes/api')
 app.use('/api', api )
 
-app.listen(8080);
+app.listen(process.env.PORT||"3000");
