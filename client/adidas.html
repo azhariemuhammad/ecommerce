@@ -130,7 +130,7 @@
               <tbody  v-for="item in transactions.itemList">
                 <tr>
                   <td>{{ item.item }}</td>
-                  <td>Rp.{ item.price }}</td>
+                  <td>Rp.{{ item.price }}</td>
                   <td>{{ item.createdAt }}</td>
                 </tr>
               </tbody>
@@ -253,7 +253,7 @@
         total  : ''
       },
       created : function () {
-        axios.get('http://localhost:8080/api/items/')
+        axios.get('http://35.198.209.73/api/items/')
         .then(response => {
             this.items = response.data
         })
@@ -296,7 +296,7 @@
             total += x.total
             id.push(x._id)
           })
-          axios.post('http://localhost:8080/api/transactions/',
+          axios.post('http://35.198.209.73/api/transactions/',
           {
             "transactions": {
                 "itemList" : id,
@@ -311,7 +311,7 @@
           })
         },
         getTransactions : function () {
-          axios.get(`http://localhost:8080/api/transactions/`)
+          axios.get(`http://35.198.209.73/api/transactions/`)
           .then(response => {
             let data = response.data
             let obj = {}
@@ -333,7 +333,7 @@
           let image = this.$refs.img.value
           let stock = this.$refs.stock.value
           console.log(item);
-          axios.post('http://localhost:8080/api/items/', {
+          axios.post('http://35.198.209.73/api/items/', {
             item  : item,
             price : price,
             img : image,
