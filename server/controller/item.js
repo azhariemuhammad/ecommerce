@@ -18,7 +18,7 @@ const create = (req, res) => {
       item  : req.body.item,
       price : req.body.price,
       stock : req.body.stock,
-      img   : req.body.img
+      img   : req.file.cloudStoragePublicUrl
     }
   ).then(item => {
     message = 'succes create one data'

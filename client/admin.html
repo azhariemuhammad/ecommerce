@@ -89,46 +89,87 @@
          </a>
        </div>
 
-       <div class="ui form" v-on:submit.prevent="createImage">
-         <h1 class="ui header">Add New Item</h1>
-         <div class="three fields">
-           <div class="field">
-             <label>Item</label>
-             <input type="text" v-model="item" placeholder="Item">
+       <div class="ui form">
+         <form class="" v-on:submit.prevent="uploadData">
+           <h1 class="ui header">Add New Item</h1>
+           <div class="three fields">
+             <div class="field">
+               <label>Item</label>
+               <input type="text" v-model="item" placeholder="Item">
+             </div>
+             <div class="field">
+               <label>Price</label>
+               <input type="integer" v-model="price" placeholder="Price">
+             </div>
+             <div class="field">
+               <label>Stock</label>
+               <input type="u=integer" v-model="stock" placeholder="">
+             </div>
+             <div class="field">
+               <label>Image</label>
+               <input class="file-input" name="file" id="file" type="file" @change="onFileChange" >
+             </div>
            </div>
-           <div class="field">
-             <label>Price</label>
-             <input type="integer" v-model="price" placeholder="Price">
-           </div>
-           <div class="field">
-             <label>Stock</label>
-             <input type="u=integer" v-model="stock" placeholder="">
-           </div>
-           <div class="field">
-             <label>Image</label>
-             <input class="file-input" name="file" id="file" type="file" @change="onFileChange" >
-           </div>
-         </div>
-           <button class="ui button" type="submit" name="submit">Submit</button>
-        </div>
+             <button class="ui button" type="submit" name="submit">Submit</button>
+           </form>
+          </div>
+
         <div class="ui inverted segment">
           <div class="ui one column centered grid ">
             <div class="column" style="text-align:center;">
-              <span>SIGN UP UNTUK MENDAPATKAN INFO TERBARU & DISKON 10%</span>
+              <span>All of your items</span>
             </div>
           </div>
           <div class="ui equal width inverted form">
-            <div class="one fields">
-              <div class="field">
-                <input placeholder="EMAIL ANDA" type="text">
-              </div>
-            </div>
-            <div class="two ui buttons">
-              <button class="ui blue button">MAN</button>
-              <button class="ui blue button">WOMEN</button>
-            </div>
+            <table class="ui single line table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>img</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in items">
+                  <td>{{ item.item }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ item.stock }}</td>
+                  <td> <img :src=item.img alt="photo" style="width:10%"></td>
+                  <td><a class="item" onclick="createNewItem()"><i class="write icon"></i></a></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+
+
+        <div class="ui mini modal" id="admin">
+          <i class="close icon"></i>
+          <div class="header">
+            Edit Item
+          </div>
+            <form class="ui form">
+              <div class="field">
+                <label>Nama Barang</label>
+                <input type="text" name="item" ref="item" >
+              </div>
+              <div class="field">
+                <label>Price</label>
+                <input type="text" name="price" ref="price">
+              </div>
+              <div class="field">
+                <label>Stock</label>
+                <input type="text" name="stock" ref="stock">
+              </div>
+              <div class="field">
+                <label>Image</label>
+                <input type="text" name="img" ref="img">
+              </div>
+              <button class="ui button" @click.prevent="createNewItem()" type="submit" >Submit</button>
+            </form>
+          </div>
 
         <div class="ui raised segment">
           <h3>Dapatkan Koleksi Sepatu Olahraga</h3>
@@ -165,16 +206,31 @@
     </div>
     </div>
     <script type="text/javascript">
+    function createNewItem () {
+      $('#admin')
+        .modal('show');
+    }
       new Vue ({
         el : '#app',
         data : {
-          item  : '',
-          price : '',
-          stock : '',
+          items  : '',
+          price : null,
+          stock : null,
           resultUpload : null,
+          item : ''
+        },
+        created : function () {
+          axios.get('http://35.198.209.73/api/items/')
+          .then(response => {
+              this.items = response.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
         },
         methods : {
           onFileChange(e) {
+            console.log(e);
             console.log(e.target.files);
             var files = e.target.files || e.dataTransfer.files;
 
@@ -190,13 +246,14 @@
             }
             reader.readAsDataURL(this.resultUpload)
           },
-          createImage(file) {
+          uploadData(file) {
             let data = new FormData()
+            console.log(this.item);
             data.append('item', this.item)
             data.append('price', this.price)
             data.append('stock', this.stock)
             data.append('image', this.resultUpload)
-            axios.post('http://35.198.209.73/api/items/', data)
+            axios.post('http://localhost:3000/api/items/', data)
             .then(res => {
               console.log(res);
             })

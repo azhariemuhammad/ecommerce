@@ -5,7 +5,8 @@ const userController = require('../controller/users')
 const transactionController = require('../controller/transactions')
 const verify = require('../middleware/verify')
 const registerController = require('../controller/register')
-
+const images = require('../helpers/images')
+const upload = images.multer.single('image');
 
 /// ================= register ====================////
 router.post('/signin', registerController.signin)
@@ -19,7 +20,18 @@ router.post('/signup', registerController.signup)
 router.get('/items', itemController.getAllItems)
 
 // post data to db
- router.post('/items', itemController.create)
+router.post('/items', (req, res, next) => {
+  upload(req, res, function(err) {
+    if (err) {
+      return res.status(400).json({
+        error: 'err'
+      })
+    }
+    next()
+  })
+}, images.sendUploadToGCS,(req, res, next) => {
+  itemController.create(req, res, next)
+})
 //
 // find data with specific id
  router.get('/items/:id', itemController.findOne)
