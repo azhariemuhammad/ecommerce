@@ -9,6 +9,7 @@ const user = process.env.USER
 const password = process.env.PASSWORD
 console.log(password);
 //connection to database
+//mongoose.connect(`mongodb://localhost/ecommerce`)
 mongoose.connect(`mongodb://wisnu:123@ds159845.mlab.com:59845/mydb_hacktiv8`)
 mongoose.Promise = global.Promise
 mongoose.connection.once('open', function(){

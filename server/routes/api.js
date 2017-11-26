@@ -3,6 +3,14 @@ const router  = express.Router()
 const itemController = require('../controller/item')
 const userController = require('../controller/users')
 const transactionController = require('../controller/transactions')
+const verify = require('../middleware/verify')
+const registerController = require('../controller/register')
+
+
+/// ================= register ====================////
+router.post('/signin', registerController.signin)
+
+router.post('/signup', registerController.signup)
 
 
 
@@ -37,9 +45,9 @@ router.get('/users/:id', userController.findOne)
 // // find data with specific id and update
 // router.put('/costumers/:id', costumerController.findByIdAndUpdate)
 //
-// // find data with specific id and delete
-// router.delete('/costumers/:id', costumerController.findByIdAndRemove)
-//
+// find data with specific id and delete
+router.delete('/users/:id', userController.findByIdAndRemove)
+
 
 // // ====================== Transaction  ===================== //
 // get all data

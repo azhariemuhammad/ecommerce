@@ -63,19 +63,19 @@ const findOne = (req, res) => {
 //     res.status(500).send({err:err})
 //   })
 // }
-//
-// const findByIdAndRemove = (req, res) => {
-//   User.findByIdAndRemove({_id : req.params.id})
-//   .then(costumer => {
-//     message = 'succes removing one data'
-//     console.log(costumer);
-//     res.status(200).send({costumer:costumer, msg:message})
-//   })
-//   .catch(err => {
-//     console.log(err);
-//     res.status(500).send({err:err})
-//   })
-// }
+
+const findByIdAndRemove = (req, res) => {
+  User.findByIdAndRemove({_id : req.params.id})
+  .then(user => {
+    message = 'succes removing one data'
+    console.log(user);
+    res.status(200).send({user:user, msg:message})
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send(err)
+  })
+}
 
 
 module.exports = {
@@ -83,5 +83,5 @@ module.exports = {
   create,
   findOne,
   // findByIdAndUpdate,
-  // findByIdAndRemove
+  findByIdAndRemove
 };
